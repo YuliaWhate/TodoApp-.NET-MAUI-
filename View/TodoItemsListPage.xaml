@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TodoApp.View.TodoItemsListPage"
+             Title="Задачи"
+             xmlns:local="clr-namespace:TodoApp.Converters">
+    <!--Работу выполнила студент группы ИСиП 4-20 Митина Юлия-->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:BoolToStringConverter x:Key="boolToStringConverter"/>
+            <local:IntToBoolConverter x:Key="intToBoolConverter"/>
+        </ResourceDictionary>
+        
+    </ContentPage.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!--Работу выполнила студент группы ИСиП 4-20 Митина Юлия-->
+        <SearchBar x:Name="SearchBar" TextChanged="OnSearchBarTextChanged" Grid.Row="0" Margin="20"
+                   IsVisible="False"/>
+        
+        <ListView x:Name="TodoListView"
+                  HasUnevenRows="True"
+                  ItemsSource="{Binding TodoItems}"
+                  VerticalOptions="FillAndExpand"
+                  Grid.Row="1"
+                  VerticalScrollBarVisibility="Always"
+                  ItemTapped="OnTodoItemTapped">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <HorizontalStackLayout Spacing="5">
+                            <Image Source="todo_logo.png" HeightRequest="50" WidthRequest="50" Margin="10, 0, 0, 0"/>
+                            <VerticalStackLayout Spacing="10" Margin="20">
+                                <Label Text="{Binding Title}" FontSize="Medium"/>
+                                <Label Text="{Binding Description}" FontSize="Small" TextColor="Gray"/>
+                                <HorizontalStackLayout Spacing="5">
+                                    <Label Text="Статус задачи: "/>
+                                    <Label Text="{Binding IsCompleated, Converter={StaticResource boolToStringConverter}}"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <!--Работу выполнила студент группы ИСиП 4-20 Митина Юлия-->
+        <Grid x:Name="EmptyListMessage"
+              ColumnDefinitions="*, Auto"
+              RowDefinitions="Auto"
+              HorizontalOptions="Center"
+              VerticalOptions="Center"
+              Grid.Row="1"
+              IsVisible="{Binding TodoItems.Count, Converter={StaticResource intToBoolConverter}}">
+            <Image Grid.Column="1"
+                   Source="todo_logo.png" 
+                   HeightRequest="50"
+                   WidthRequest="50"
+                   Margin="5"
+                   VerticalOptions="CenterAndExpand"/>
+            <Label Grid.Column="0"
+                   Text="Список задач пуст"
+                   FontSize="Medium"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="Start"
+                   VerticalTextAlignment="Center"/>
+        </Grid>
+
+        <!--Работу выполнила студент группы ИСиП 4-20 Митина Юлия-->
+        <Button Grid.Row="2"
+                Text="Добавить задачу"
+                Clicked="OnAddTodoItemClicked"
+                VerticalOptions="End"
+                Margin="20"/>
+    </Grid>
+</ContentPage>
+    
+    
+    
